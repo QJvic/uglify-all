@@ -1,0 +1,30 @@
+{
+  "name": "uglify-all",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "description": "Uglify all html, js and css files in a folder",
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "keywords": [
+    "uglify",
+    "obfuscator",
+    "all",
+    "html",
+    "js",
+    "css",
+    "folder"
+  ],
+  "author": "joe <qj5657@gmail.com>",
+  "homepage": "https://github.com/QJvic/hik-openapi",
+  "devDependencies": {
+    "prettier": "^2.6.0"
+  },
+  "dependencies": {
+    "copy-dir": "^1.3.0",
+    "javascript-obfuscator": "^4.0.0",
+    "uglifycss": "^0.0.29"
+  }
+}

@@ -10,15 +10,23 @@
   ],
   "keywords": [
     "uglify",
+    "uglifier",
     "obfuscator",
     "all",
     "html",
     "js",
     "css",
-    "folder"
+    "folder",
+    "pack",
+    "packer",
+    "minify",
+    "minifier",
+    "min",
+    "optimizer",
+    "compress"
   ],
   "author": "joe <qj5657@gmail.com>",
-  "homepage": "https://github.com/QJvic/hik-openapi",
+  "homepage": "https://github.com/QJvic/uglify-all",
   "devDependencies": {
     "prettier": "^2.6.0"
   },

@@ -28,9 +28,9 @@ module.exports = function uglifyAll(inFolder, outFolder, opts) {
   let failedList = [];
   walkFolderSync(outFolder, filePath => {
     try {
-      dealJs(filePath, logger);
-      dealHtml(filePath, logger);
-      dealCss(filePath, logger);
+      dealJs(filePath, logger, opts);
+      dealHtml(filePath, logger, opts);
+      dealCss(filePath, logger, opts);
     } catch (e) {
       failedList.push({ file: filePath, e: e });
     }
@@ -42,22 +42,29 @@ module.exports = function uglifyAll(inFolder, outFolder, opts) {
   }
 };
 
-function dealJs(filePath, logger) {
+function dealJs(filePath, logger, opts) {
   if (filePath.endsWith('.js') && !filePath.endsWith('.min.js')) {
-    fs.writeFileSync(
-      filePath,
-      JavaScriptObfuscator.obfuscate(fs.readFileSync(filePath, 'utf8')).getObfuscatedCode(),
-      'utf8'
-    );
+    let inText = fs.readFileSync(filePath, 'utf8');
+    if (opts?.js?.beforeDeal && typeof opts?.js?.beforeDeal === 'function') {
+      inText = opts?.js?.beforeDeal(inText);
+    }
+    fs.writeFileSync(filePath, JavaScriptObfuscator.obfuscate(inText).getObfuscatedCode(), 'utf8');
     logger.log('succeed: ', filePath);
   }
 }
 
-function dealHtml(filePath, logger) {
+function dealHtml(filePath, logger, opts) {
   if (filePath.endsWith('.html')) {
     let inText = fs.readFileSync(filePath, 'utf-8');
+    debugger;
+    if (opts?.html?.beforeDeal && typeof opts?.html?.beforeDeal === 'function') {
+      inText = opts?.html?.beforeDeal(inText);
+    }
+    debugger;
     inText = escape(inText);
-    inText = `<script>document.write(unescape(\`${inText}\`));</script>`;
+    inText = `document.write(unescape(\`${inText}\`));`;
+    inText = JavaScriptObfuscator.obfuscate(inText).getObfuscatedCode();
+    inText = `<script>${inText}</script>`;
     fs.writeFileSync(filePath, inText, 'utf-8');
     logger.log('succeed: ', filePath);
   }

@@ -1,6 +1,6 @@
 {
   "name": "uglify-all",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "main": "index.js",
   "license": "MIT",
   "description": "Uglify all html, js and css files in a folder",

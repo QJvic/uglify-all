@@ -9,6 +9,9 @@ let opt = {
   html: {
     beforeDeal(text) {
       return text + `<script>console.log('html beforeDeal')</script>`;
+    },
+    afterDeal(text) {
+      return `<meta charset='utf-8'>` + text;
     }
   }
 };

@@ -48,7 +48,11 @@ function dealJs(filePath, logger, opts) {
     if (opts?.js?.beforeDeal && typeof opts?.js?.beforeDeal === 'function') {
       inText = opts?.js?.beforeDeal(inText);
     }
-    fs.writeFileSync(filePath, JavaScriptObfuscator.obfuscate(inText).getObfuscatedCode(), 'utf8');
+    inText = JavaScriptObfuscator.obfuscate(inText).getObfuscatedCode();
+    if (opts?.js?.afterDeal && typeof opts?.js?.afterDeal === 'function') {
+      inText = opts?.js?.afterDeal(inText);
+    }
+    fs.writeFileSync(filePath, inText, 'utf8');
     logger.log('succeed: ', filePath);
   }
 }
@@ -56,15 +60,16 @@ function dealJs(filePath, logger, opts) {
 function dealHtml(filePath, logger, opts) {
   if (filePath.endsWith('.html')) {
     let inText = fs.readFileSync(filePath, 'utf-8');
-    debugger;
     if (opts?.html?.beforeDeal && typeof opts?.html?.beforeDeal === 'function') {
       inText = opts?.html?.beforeDeal(inText);
     }
-    debugger;
     inText = escape(inText);
     inText = `document.write(unescape(\`${inText}\`));`;
     inText = JavaScriptObfuscator.obfuscate(inText).getObfuscatedCode();
     inText = `<script>${inText}</script>`;
+    if (opts?.html?.afterDeal && typeof opts?.html?.afterDeal === 'function') {
+      inText = opts?.html?.afterDeal(inText);
+    }
     fs.writeFileSync(filePath, inText, 'utf-8');
     logger.log('succeed: ', filePath);
   }
